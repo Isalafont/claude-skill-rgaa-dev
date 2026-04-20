@@ -1,22 +1,31 @@
-# Skill Accessibilité Numérique
+# Skill rgaa-dev
 
-Guide d'implémentation accessibilité selon RGAA 4.1, WCAG 2.2 AA et patterns ARIA.
-Conçu pour les projets BetaGouv/Etalab utilisant Rails + ERB + ViewComponent + Stimulus + Turbo,
+Skill Claude Code pour l'implémentation accessibilité selon RGAA 4.1, WCAG 2.2 AA et patterns ARIA.
+Conçue pour les projets BetaGouv/Etalab utilisant Rails + ERB + ViewComponent + Stimulus + Turbo,
 **avec ou sans DSFR**. Détection automatique du contexte projet.
 
 ## Installation
 
-Copier le dossier `accessibility/` dans ton répertoire de skills Claude Code :
+```bash
+# Cloner le repo et lancer le script d'installation
+git clone https://github.com/Isalafont/claude-skill-rgaa-dev.git
+cd claude-skill-rgaa-dev
+bash install.sh
+```
+
+La skill sera installée dans `~/.claude/skills/rgaa-dev/` et disponible dans tous tes projets.
+
+### Installation manuelle
+
+Copier le dossier dans ton répertoire de skills Claude Code :
 
 ```bash
 # Skills personnels (disponibles dans tous tes projets)
-~/.claude/skills/accessibility/
+~/.claude/skills/rgaa-dev/
 
 # Skills de projet (disponibles uniquement dans ce repo)
-.claude/skills/accessibility/
+.claude/skills/rgaa-dev/
 ```
-
-Pour que Claude charge la skill automatiquement, vérifier que le fichier `SKILL.md` est bien présent à la racine du dossier.
 
 ## Comment l'utiliser
 
@@ -28,28 +37,30 @@ La skill se charge **automatiquement** quand tu demandes à Claude de :
 - Corriger un problème d'accessibilité
 - Parler d'accessibilité, RGAA, WCAG, ARIA ou handicap
 
+Elle se charge aussi automatiquement quand tu travailles sur des fichiers ERB, ViewComponent ou JavaScript (via le champ `paths` du frontmatter).
+
 Dans ce mode, Claude applique les règles sans que tu aies à le mentionner.
 
-### Mode explicite `/accessibility`
+### Mode explicite `/rgaa-dev`
 
 Pour demander un audit ou poser une question ciblée :
 
 ```
-/accessibility Audite ce composant avant merge
-/accessibility Quelles règles ARIA pour une liste avec filtre dynamique ?
-/accessibility Implémente un champ upload accessible RGAA
-/accessibility Ce formulaire est-il conforme RGAA 11 ?
+/rgaa-dev Audite ce composant avant merge
+/rgaa-dev Quelles règles ARIA pour une liste avec filtre dynamique ?
+/rgaa-dev Implémente un champ upload accessible RGAA
+/rgaa-dev Ce formulaire est-il conforme RGAA 11 ?
 ```
 
 ### Cas d'usage typiques
 
 | Situation | Ce que tu demandes |
 |-----------|-------------------|
-| Code review | `/accessibility Vérifie ce composant` |
+| Code review | `/rgaa-dev Vérifie ce composant` |
 | Nouveau composant | Demander l'implémentation normalement — Claude suit les règles |
-| Audit d'une page | `/accessibility Audite la page [X]` |
-| Question ponctuelle | `/accessibility Comment gérer le focus dans une modale Turbo ?` |
-| Correction d'erreur axe | `/accessibility axe remonte "aria-required-children" sur ce code` |
+| Audit d'une page | `/rgaa-dev Audite la page [X]` |
+| Question ponctuelle | `/rgaa-dev Comment gérer le focus dans une modale Turbo ?` |
+| Correction d'erreur axe | `/rgaa-dev axe remonte "aria-required-children" sur ce code` |
 
 ## Ce que la skill couvre
 
