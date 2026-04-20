@@ -59,6 +59,16 @@ Pour demander un audit ou poser une question ciblée :
 | Question ponctuelle | `/accessibility:rgaa-dev Comment gérer le focus dans une modale Turbo ?` |
 | Correction d'erreur axe | `/accessibility:rgaa-dev axe remonte "aria-required-children" sur ce code` |
 
+## Roadmap
+
+Ce plugin est conçu pour accueillir plusieurs skills complémentaires :
+
+| Skill | Invocation | Statut |
+|-------|-----------|--------|
+| Guide complet RGAA/WCAG | `/accessibility:rgaa-dev` | ✅ Disponible |
+| Audit critère par critère | `/accessibility:audit` | 🚧 En conception |
+| Checklist avant commit | `/accessibility:check` | 🚧 En conception |
+
 ## Ce que la skill couvre
 
 ### Standards
