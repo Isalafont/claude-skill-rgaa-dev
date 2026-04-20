@@ -1,7 +1,7 @@
 # Skill rgaa-dev
 
 Skill Claude Code pour l'implémentation accessibilité selon RGAA 4.1, WCAG 2.2 AA et patterns ARIA.
-Conçue pour les projets BetaGouv/Etalab utilisant Rails + ERB + ViewComponent + Stimulus + Turbo,
+Conçue pour les projets BetaGouv/data.gouv.fr utilisant Rails + ERB + ViewComponent + Stimulus + Turbo,
 **avec ou sans DSFR**. Détection automatique du contexte projet.
 
 ## Installation
