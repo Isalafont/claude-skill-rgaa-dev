@@ -6,26 +6,23 @@ Conçue pour les projets BetaGouv/Etalab utilisant Rails + ERB + ViewComponent +
 
 ## Installation
 
+### Via plugin (recommandé)
+
 ```bash
-# Cloner le repo et lancer le script d'installation
+claude plugin install accessibility@https://github.com/Isalafont/claude-skill-rgaa-dev
+```
+
+Le plugin est alors disponible dans tous tes projets Claude Code via `/accessibility:rgaa-dev`.
+
+### Via script (installation manuelle)
+
+```bash
 git clone https://github.com/Isalafont/claude-skill-rgaa-dev.git
 cd claude-skill-rgaa-dev
 bash install.sh
 ```
 
-La skill sera installée dans `~/.claude/skills/rgaa-dev/` et disponible dans tous tes projets.
-
-### Installation manuelle
-
-Copier le dossier dans ton répertoire de skills Claude Code :
-
-```bash
-# Skills personnels (disponibles dans tous tes projets)
-~/.claude/skills/rgaa-dev/
-
-# Skills de projet (disponibles uniquement dans ce repo)
-.claude/skills/rgaa-dev/
-```
+La skill sera copiée dans `~/.claude/skills/rgaa-dev/` et invocable via `/rgaa-dev`.
 
 ## Comment l'utiliser
 
@@ -41,26 +38,26 @@ Elle se charge aussi automatiquement quand tu travailles sur des fichiers ERB, V
 
 Dans ce mode, Claude applique les règles sans que tu aies à le mentionner.
 
-### Mode explicite `/rgaa-dev`
+### Mode explicite `/accessibility:rgaa-dev`
 
 Pour demander un audit ou poser une question ciblée :
 
 ```
-/rgaa-dev Audite ce composant avant merge
-/rgaa-dev Quelles règles ARIA pour une liste avec filtre dynamique ?
-/rgaa-dev Implémente un champ upload accessible RGAA
-/rgaa-dev Ce formulaire est-il conforme RGAA 11 ?
+/accessibility:rgaa-dev Audite ce composant avant merge
+/accessibility:rgaa-dev Quelles règles ARIA pour une liste avec filtre dynamique ?
+/accessibility:rgaa-dev Implémente un champ upload accessible RGAA
+/accessibility:rgaa-dev Ce formulaire est-il conforme RGAA 11 ?
 ```
 
 ### Cas d'usage typiques
 
 | Situation | Ce que tu demandes |
 |-----------|-------------------|
-| Code review | `/rgaa-dev Vérifie ce composant` |
+| Code review | `/accessibility:rgaa-dev Vérifie ce composant` |
 | Nouveau composant | Demander l'implémentation normalement — Claude suit les règles |
-| Audit d'une page | `/rgaa-dev Audite la page [X]` |
-| Question ponctuelle | `/rgaa-dev Comment gérer le focus dans une modale Turbo ?` |
-| Correction d'erreur axe | `/rgaa-dev axe remonte "aria-required-children" sur ce code` |
+| Audit d'une page | `/accessibility:rgaa-dev Audite la page [X]` |
+| Question ponctuelle | `/accessibility:rgaa-dev Comment gérer le focus dans une modale Turbo ?` |
+| Correction d'erreur axe | `/accessibility:rgaa-dev axe remonte "aria-required-children" sur ce code` |
 
 ## Ce que la skill couvre
 
