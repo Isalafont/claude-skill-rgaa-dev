@@ -66,7 +66,7 @@ Ce plugin est conçu pour accueillir plusieurs skills complémentaires :
 | Skill | Invocation | Statut |
 |-------|-----------|--------|
 | Guide complet RGAA/WCAG | `/accessibility:rgaa-dev` | ✅ Disponible |
-| Audit critère par critère | `/accessibility:audit` | 🚧 En conception |
+| Audit critère par critère | `/accessibility:audit` | ✅ Disponible |
 | Checklist avant commit | `/accessibility:check` | 🚧 En conception |
 
 ## Ce que la skill couvre
