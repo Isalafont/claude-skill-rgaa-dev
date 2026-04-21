@@ -1,14 +1,14 @@
 {
   "name": "accessibility",
-  "version": "1.0.0",
-  "description": "RGAA 4.1 / WCAG 2.2 AA / WAI-ARIA 1.2 — Guide d'implémentation accessibilité pour Rails + DSFR + ViewComponent + Stimulus + Turbo",
+  "version": "1.1.0",
+  "description": "RGAA 4.1 / WCAG 2.2 AA / WAI-ARIA 1.2 — Guide d'implémentation et audit accessibilité numérique (exemples Rails + DSFR)",
   "author": {
     "name": "Isabelle Lafont",
     "url": "https://github.com/Isalafont"
   },
   "homepage": "https://github.com/Isalafont/claude-skill-rgaa-dev",
   "repository": "https://github.com/Isalafont/claude-skill-rgaa-dev",
-  "license": "MIT",
-  "keywords": ["accessibility", "a11y", "rgaa", "wcag", "aria", "rails", "dsfr", "betagouv"],
+  "license": "etalab-2.0",
+  "keywords": ["accessibility", "a11y", "rgaa", "wcag", "aria", "rails", "dsfr", "betagouv", "datagouv", "pole-api"],
   "skills": "./skills/"
 }
