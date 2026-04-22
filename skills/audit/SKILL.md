@@ -1,21 +1,21 @@
 ---
 name: audit
 description: |
-  Audit RGAA 4.1 guidé — évalue la conformité accessibilité d'une page ou d'un
+  Audit RGAA 4.1.2 guidé — évalue la conformité accessibilité d'une page ou d'un
   composant Rails/DSFR avant merge. Pose des questions thème par thème (images,
   liens, formulaires, scripts, navigation, structuration…) avec niveau de sévérité
   🔴 Bloquant / 🟠 Gênant / 🟡 Mineur et exemple de correction ERB/DSFR immédiat.
   Produit un rapport de non-conformités priorisées. Invoquer avec le chemin du
   fichier : /accessibility:audit app/views/foo.html.erb
   Fonctionne en mode page (vue complète) ou mode composant (audit partiel).
-  Suit le RGAA 4.1 : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/
+  Suit le RGAA 4.1.2 : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/
 paths:
   - "app/views/**/*.erb"
   - "app/components/**/*.erb"
   - "app/components/**/*.rb"
 ---
 
-# /accessibility:audit — Audit RGAA 4.1 guidé
+# /accessibility:audit — Audit RGAA 4.1.2 guidé
 
 ## Comment utiliser cette skill
 
@@ -92,10 +92,14 @@ En fin d'audit, demander :
 ```
 Audit terminé. Comment veux-tu le résultat ?
 
-1. Rapport Markdown complet (à sauvegarder ou coller dans la PR description)
+1. Rapport Markdown complet sauvegardé dans .claude/audit/
 2. Corrections directes maintenant (on corrige dans les fichiers)
-3. Les deux — rapport + corrections immédiates
+3. Les deux — rapport sauvegardé + corrections immédiates
 ```
+
+Si l'option 1 ou 3 est choisie, écrire le rapport dans `.claude/audit/rgaa-<nom-du-fichier>-<YYYY-MM-DD>.md`
+(ex : `.claude/audit/rgaa-search-filter-component-2026-04-22.md`), puis afficher le chemin et une synthèse
+en moins de 10 lignes.
 
 ---
 

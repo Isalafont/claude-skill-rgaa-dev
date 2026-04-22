@@ -1,7 +1,7 @@
 ---
 name: rgaa-dev
 description: |
-  Accessibilité numérique (a11y) — RGAA 4.1 / WCAG 2.2 AA / WAI-ARIA 1.2.
+  Accessibilité numérique (a11y) — RGAA 4.1.2 / WCAG 2.2 AA / WAI-ARIA 1.2.
   Invoquer quand le code concerne : HTML sémantique, ARIA, formulaires (label,
   erreur, autocomplete, stepper), liens, navigation, composants interactifs
   (modale, onglets, accordéon, dropdown, tooltip, upload, combobox),
@@ -19,10 +19,12 @@ paths:
 
 # Accessibilité Numérique — Guide RGAA / WCAG / ARIA
 
-> **Versions couvertes** : RGAA 4.1 · WCAG 2.2 (AA) · DSFR 1.x · WAI-ARIA 1.2
+> **Versions couvertes** : RGAA 4.1.2 · WCAG 2.2 (AA) · DSFR 1.x · WAI-ARIA 1.2
 > **Dernière mise à jour** : avril 2026
 
 ---
+
+> **Navigation** : utiliser des Read ciblés (offset/limit). Ne pas faire de grep exploratoire — les tableaux de ce fichier font foi sur les sections à consulter.
 
 ## Détection du contexte projet
 
@@ -46,6 +48,7 @@ En cas de doute, demander à l'utilisateur.
 | Formulaire multi-étapes (stepper) | [examples-dsfr.md](examples-dsfr.md) §Stepper + [rails-patterns.md](rails-patterns.md) §Redundant Entry |
 | Créer/modifier de la navigation ou des liens | [rgaa-themes.md](rgaa-themes.md) §Navigation + [examples-dsfr.md](examples-dsfr.md) §Liens |
 | Tableau triable / filtrable | [examples-dsfr.md](examples-dsfr.md) §Tableau triable + [rails-patterns.md](rails-patterns.md) |
+| Liste filtrée / recherche dynamique (annonce de résultats, live region) | [examples-dsfr.md](examples-dsfr.md) §Filtrage dynamique (+ §Champ de recherche avec suggestions si autocomplete) |
 | Auditer ou faire la review d'une page | [checklist.md](checklist.md) du type de page + [html-structure.md](html-structure.md) §Outils |
 | Travailler avec Turbo / Hotwire | [rails-patterns.md](rails-patterns.md) §Turbo |
 | Question sur contrastes, target size, focus | [colors.md](colors.md) |
@@ -73,7 +76,7 @@ Applique l'accessibilité **pendant** l'implémentation, pas après :
 
 ## Contexte légal
 
-Le **RGAA 4.1** est le standard légal français basé sur **WCAG 2.2** du W3C. Il s'applique à tous les services publics numériques (loi 2005-102, décret 2019-768). L'**European Accessibility Act (EAA)** rend WCAG 2.2 AA obligatoire dans l'UE depuis le 28 juin 2025.
+Le **RGAA 4.1.2** est le standard légal français basé sur **WCAG 2.2** du W3C. Il s'applique à tous les services publics numériques (loi 2005-102, décret 2019-768). L'**European Accessibility Act (EAA)** rend WCAG 2.2 AA obligatoire dans l'UE depuis le 28 juin 2025.
 
 Non-conformité = exclusion réelle :
 - Cécité / malvoyance → lecteurs d'écran (NVDA, JAWS, VoiceOver)

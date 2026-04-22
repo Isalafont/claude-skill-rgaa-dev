@@ -1,4 +1,4 @@
-# Critères RGAA 4.1 — Thèmes et exemples
+# Critères RGAA 4.1.2 — Thèmes et exemples
 
 Référence des 13 thèmes RGAA avec exemples de code.
 Pour les exemples avec DSFR → [examples-dsfr.md](examples-dsfr.md)

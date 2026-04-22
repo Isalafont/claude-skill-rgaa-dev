@@ -2,7 +2,7 @@
 
 ## Références officielles
 
-### RGAA 4.1
+### RGAA 4.1.2
 | Thème | Lien direct |
 |-------|-------------|
 | Introduction | https://accessibilite.numerique.gouv.fr/methode/introduction/ |
@@ -210,7 +210,7 @@ La **déclaration d'accessibilité** est obligatoire pour tout service numériqu
 
 - Loi n° 2005-102 du 11 février 2005, article 47
 - Décret n° 2019-768 du 24 juillet 2019
-- Arrêté du 20 septembre 2019 (RGAA 4.1 comme référentiel officiel)
+- Arrêté du 20 septembre 2019 (RGAA 4.1.2 comme référentiel officiel)
 - Formulaire de signalement DINUM : https://accessibilite.numerique.gouv.fr/obligation/declaration-accessibilite/
 
 ---

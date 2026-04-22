@@ -1,4 +1,4 @@
-# Audit Flow — Questions RGAA 4.1 par thème
+# Audit Flow — Questions RGAA 4.1.2 par thème
 
 Ce fichier est utilisé par la skill `/accessibility:audit`.
 Pour chaque thème activé (détection automatique), poser les questions dans l'ordre.

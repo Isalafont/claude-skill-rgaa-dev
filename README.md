@@ -1,18 +1,36 @@
 # RGAA Skill pour Claude Code
 
 Plugin Claude Code fournissant deux skills d'accessibilité numérique pour les
-projets publics français : un guide d'implémentation conforme RGAA 4.1 / WCAG 2.2
+projets publics français : un guide d'implémentation conforme RGAA 4.1.2 / WCAG 2.2
 AA / WAI-ARIA 1.2, et un audit guidé critère par critère. Conçu pour la stack
 Rails + ERB + ViewComponent + Stimulus + Turbo, **avec ou sans DSFR** (détection
 automatique du contexte projet).
 
-## Contexte
-
-Skill développée par **Isabelle Lafont** dans le cadre de son travail sur
-DataPass, au sein du **Pôle Data - Circulation de la Donnée de la DINUM**.
-Elle a vocation à être adoptée par les autres équipes du pôle.
-
-Publiée sous [Licence Ouverte 2.0](./LICENSE.md) (Etalab).
+> **Outil d'aide au développement** — cette skill assiste à l'implémentation et
+> à la détection de non-conformités dans le code. Elle ne remplace pas un audit
+> humain : sur 106 critères RGAA 4.1.2, l'analyse statique du code en couvre
+> environ 30 à 40 de façon fiable. Les tests lecteur d'écran, navigation clavier
+> et contrastes réels restent indispensables.
+>
+> | Thème RGAA | Couverture IA |
+> |------------|---------------|
+> | 1 — Images | 🟡 Partielle — détecte `alt` manquant et `aria-hidden`, ne juge pas la pertinence du texte |
+> | 2 — Cadres | 🟡 Partielle — détecte `title` manquant sur `<iframe>` |
+> | 3 — Couleurs | 🟠 Limitée — vérifie l'usage des tokens DSFR, pas les contrastes calculés au runtime |
+> | 4 — Multimédia | ❌ Non couverte — nécessite de regarder/écouter le contenu |
+> | 5 — Tableaux | ✅ Bonne — `scope`, `caption`, `headers` vérifiables statiquement |
+> | 6 — Liens | 🟡 Partielle — intitulés et `aria-label`, pas le comportement réel en contexte |
+> | 7 — Scripts | 🟡 Partielle — ARIA sur composants interactifs, pas la navigation clavier effective |
+> | 8 — Éléments obligatoires | ✅ Bonne — `lang`, `title`, `meta` vérifiables dans le code |
+> | 9 — Structuration | 🟡 Partielle — hiérarchie des titres et landmarks dans le code |
+> | 10 — Présentation | 🟠 Limitée — ne peut pas tester la présentation sans CSS |
+> | 11 — Formulaires | ✅ Bonne — `<label>`, messages d'erreur, groupements vérifiables |
+> | 12 — Navigation | 🟠 Limitée — ne peut pas tester avec un lecteur d'écran |
+> | 13 — Consultation | ❌ Non couverte — sessions, délais, animations nécessitent des tests runtime |
+>
+> L'accessibilité numérique, c'est permettre à chacun d'accéder à un service, quelles que soient ses capacités. 15 à 20 % des utilisateurs vivent avec un handicap qui affecte leur navigation numérique — visuel, moteur, auditif ou cognitif. Un service accessible, c'est un service qui fonctionne pour tous.
+>
+> Pour consulter les 106 critères : [accessibilite.numerique.gouv.fr](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/)
 
 ## Table des matières
 
@@ -39,8 +57,11 @@ Depuis Claude Code :
 /plugin install accessibility@rgaa-toolkit
 ```
 
-Le plugin `accessibility` est alors disponible dans tous tes projets Claude Code
-via les skills `/accessibility:rgaa-dev` et `/accessibility:audit`.
+`accessibility@rgaa-toolkit` suit la convention `plugin@marketplace` : le plugin
+s'appelle `accessibility`, il est publié dans le marketplace `rgaa-toolkit`.
+
+Une fois installé, il est disponible dans tous tes projets Claude Code via les
+skills `/accessibility:rgaa-dev` et `/accessibility:audit`.
 
 Pour vérifier l'installation : `/plugin` liste les plugins actifs.
 Pour recharger après une mise à jour : `/reload-plugins`.
@@ -90,10 +111,10 @@ méthodologie d'audit pas-à-pas.
 
 Les skills se chargent **automatiquement** quand tu demandes à Claude de :
 
-- Créer ou modifier un composant HTML, un formulaire, un lien, une navigation
-- Implémenter un composant dynamique (modale, onglets, accordéon, upload)
-- Corriger un problème d'accessibilité
-- Parler d'accessibilité, RGAA, WCAG, ARIA ou handicap
+- Implémenter un formulaire, un composant interactif ou une navigation
+- Gérer le focus, les annonces dynamiques ou les contrastes
+- Faire une review ou un audit d'une vue avant merge
+- Poser une question sur RGAA, WCAG, ARIA ou le handicap
 
 Elles se chargent aussi quand tu travailles sur des fichiers ERB, ViewComponent
 ou JavaScript (via le champ `paths` du frontmatter). Dans ce mode, Claude
@@ -109,7 +130,7 @@ Pour demander un audit ou poser une question ciblée :
 /accessibility:rgaa-dev Ce formulaire est-il conforme RGAA 11 ?
 
 /accessibility:audit app/views/users/show.html.erb
-/accessibility:audit app/components/admin/data_provider_selector_component.html.erb
+/accessibility:audit app/components/form/search_filter_component.html.erb
 ```
 
 ### Cas d'usage typiques
@@ -170,7 +191,7 @@ claude-skill-rgaa-dev/
 
 ### Standards
 
-- **RGAA 4.1** — standard légal français (obligatoire pour les services publics)
+- **RGAA 4.1.2** — standard légal français (obligatoire pour les services publics)
 - **WCAG 2.2 AA** — niveaux A et AA (baseline légale EAA depuis juin 2025)
 - **WAI-ARIA 1.2** — patterns d'interaction (combobox, dialog, tabs, accordion…)
 - **DSFR** — Système de Design de l'État (composants, classes, helpers)
@@ -262,7 +283,7 @@ Ce projet est publié sous [Licence Ouverte 2.0 (Etalab-2.0)](./LICENSE.md).
 
 ## Références
 
-- [RGAA 4.1](https://accessibilite.numerique.gouv.fr/) — référentiel officiel
+- [RGAA 4.1.2](https://accessibilite.numerique.gouv.fr/) — référentiel officiel
 - [WCAG 2.2](https://www.w3.org/TR/WCAG22/) — standard international
 - [WAI-ARIA 1.2](https://www.w3.org/TR/wai-aria-1.2/) — patterns ARIA
 - [Design System Français (DSFR)](https://www.systeme-de-design.gouv.fr/)
@@ -282,4 +303,4 @@ Ce projet est publié sous [Licence Ouverte 2.0 (Etalab-2.0)](./LICENSE.md).
 
 ---
 
-**Version** : 1.1.0 | **Dernière mise à jour** : 2026-04-21
+**Version** : 1.1.0 | **Dernière mise à jour** : 2026-04-22
