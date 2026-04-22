@@ -303,4 +303,4 @@ Ce projet est publié sous [Licence Ouverte 2.0 (Etalab-2.0)](./LICENSE.md).
 
 ---
 
-**Version** : 1.1.0 | **Dernière mise à jour** : 2026-04-22
+**Version** : 1.1.1 | **Dernière mise à jour** : 2026-04-22
