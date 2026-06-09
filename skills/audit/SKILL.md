@@ -1,13 +1,11 @@
 ---
 name: audit
 description: |
-  Audit RGAA 4.1.2 guidé — évalue la conformité accessibilité d'une page ou d'un
-  composant Rails/DSFR avant merge. Pose des questions thème par thème (images,
-  liens, formulaires, scripts, navigation, structuration…) avec niveau de sévérité
-  🔴 Bloquant / 🟠 Gênant / 🟡 Mineur et exemple de correction ERB/DSFR immédiat.
-  Produit un rapport de non-conformités priorisées. Invoquer avec le chemin du
-  fichier : /accessibility:audit app/views/foo.html.erb
-  Fonctionne en mode page (vue complète) ou mode composant (audit partiel).
+  Audit RGAA 4.1.2 — analyse statique du code puis 3 questions runtime.
+  Produit un rapport de conformité structuré (tableau C/NC/NA par thème,
+  NC détaillées avec Élément/Problème/Correction/Priorité, correction groupée).
+  Invoquer avec le chemin du fichier : /accessibility:audit app/views/foo.html.erb
+  Fonctionne en mode page (app/views/) ou composant (app/components/).
   Suit le RGAA 4.1.2 : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/
 paths:
   - "app/views/**/*.erb"
@@ -15,133 +13,181 @@ paths:
   - "app/components/**/*.rb"
 ---
 
-# /accessibility:audit — Audit RGAA 4.1.2 guidé
+# /accessibility:audit — Audit RGAA 4.1.2
 
 ## Comment utiliser cette skill
 
 ```
-/accessibility:audit app/views/users/show.html.erb        # mode page
-/accessibility:audit app/components/ban_form_component.html.erb  # mode composant
-```
-
-Fournis le chemin du fichier à auditer. La skill lit le code, détecte les thèmes
-concernés et pose des questions ciblées avec exemples de correction.
-
----
-
-## Phase 1 — Détection automatique des thèmes
-
-Analyser le code fourni et activer uniquement les thèmes pertinents :
-
-| Détecteur dans le code | Thèmes activés |
-|------------------------|----------------|
-| `<img>`, `image_tag`, `<svg>`, `fr-icon-*` | Thème 1 — Images |
-| `<iframe>` | Thème 2 — Cadres |
-| CSS custom, classes couleur hors DSFR | Thème 3 — Couleurs |
-| `<video>`, `<audio>` | Thème 4 — Multimédia |
-| `<table>` | Thème 5 — Tableaux |
-| `<a>`, `link_to`, `button_to` | Thème 6 — Liens |
-| `data-controller`, `<dialog>`, `onclick`, `aria-expanded` | Thème 7 — Scripts |
-| Fichier layout / mode page | Thème 8 — Éléments obligatoires |
-| `<h1>`…`<h6>`, `<nav>`, `<main>`, `<header>` | Thème 9 — Structuration |
-| Tout fichier avec CSS inline ou `class=` | Thème 10 — Présentation |
-| `<form>`, `form_with`, `<input>`, `<select>`, `<textarea>` | Thème 11 — Formulaires |
-| Fichier layout / mode page | Thème 12 — Navigation |
-| Session, `<a href="*.pdf">`, animations, `setTimeout` | Thème 13 — Consultation |
-
-Thèmes non détectés → marqués « non concerné » dans le rapport, sans questions.
-
-**Détecter aussi le mode :**
-- Fichier dans `app/views/` → **mode page** (thèmes 8 et 12 actifs)
-- Fichier dans `app/components/` → **mode composant** (thèmes 8 et 12 désactivés, avertissement en fin de rapport)
-
----
-
-## Phase 2 — Questions guidées par thème
-
-Consulter [audit-flow.md](audit-flow.md) pour les questions détaillées de chaque thème.
-
-**Règles de conduite :**
-- Poser les questions **thème par thème**, pas toutes d'un coup
-- Maximum 3 questions par thème
-- Indiquer le niveau de sévérité avant chaque question : 🔴 Bloquant / 🟠 Gênant / 🟡 Mineur
-- **Si NON** : afficher immédiatement l'exemple de correction ERB/DSFR
-- **Si NON CONCERNÉ** : passer au thème suivant sans attendre
-- Proposer « Veux-tu que je corrige ça maintenant ? » après chaque non-conformité bloquante
-
----
-
-## Phase 3 — Vérifications transverses (toujours posées)
-
-Après tous les thèmes, poser systématiquement :
-
-```
-Avant de finaliser le rapport :
-
-🔴 [ ] Test clavier effectué ? (Tab, Shift+Tab, Enter, Escape, flèches dans les composants)
-🔴 [ ] Zoom 200% testé ? (Cmd++ × 6 — aucun texte coupé, pas de scroll horizontal)
-🟠 [ ] Focus visible sur tous les éléments interactifs ?
+/accessibility:audit app/views/users/show.html.erb
+/accessibility:audit app/components/ban_form_component.html.erb
 ```
 
 ---
 
-## Choix du format de sortie
+## Phase 1 — Analyse statique silencieuse
 
-En fin d'audit, demander :
+Lire le code et **détecter directement les NC** sans poser de questions, en appliquant les critères RGAA pertinents.
+
+### Détection du mode et du contexte
+
+**Mode :**
+- `app/views/` → **mode page** (thèmes 8 et 12 actifs)
+- `app/components/` → **mode composant** (thèmes 8 et 12 désactivés)
+
+**Contexte de la description (pour le rapport) :**
+Inférer depuis le chemin du fichier :
+- `admin/` → `(interface admin)`
+- `instruction/` → `(interface instructeur)`
+- `components/` → `(composant)`
+- `users/` → `(espace utilisateur)`
+- Sinon → laisser vide
+
+### Critères à analyser par thème
+
+Consulter les fichiers de référence pour les patterns de détection, non-conformités type et corrections ERB/DSFR :
+
+| Thèmes | Fichier de référence | Ce qu'on cherche |
+|--------|----------------------|-----------------|
+| 1–3 Images, Cadres, Couleurs | [references/images-cadres-couleurs.md](references/images-cadres-couleurs.md) | `<img>` sans `alt` ; SVG sans `aria-hidden` ; `<iframe>` sans `title` ; info par couleur seule |
+| 4–7 Multimédia, Tableaux, Liens, Scripts | [references/multimedia-tableaux-liens-scripts.md](references/multimedia-tableaux-liens-scripts.md) | `<video>` sans `<track>` ; `<th>` sans `scope` ; liens ambigus ou vides ; `target="_blank"` sans indication AT ; `<div onclick>` |
+| 8–10 Éléments obligatoires, Structure, Présentation | [references/structure-presentation.md](references/structure-presentation.md) | `set_title!` absent ; hiérarchie titres ; landmarks ; `outline: none` ; zoom 200% |
+| 11 Formulaires | [references/formulaires.md](references/formulaires.md) | `<input>` sans label ; erreurs sans `aria-invalid` + `aria-describedby` ; champs obligatoires |
+| 12–13 Navigation, Consultation | [references/navigation-consultation.md](references/navigation-consultation.md) | Liens d'évitement ; `aria-current="page"` ; nouvelle fenêtre ; PDF sans alternative |
+
+**Règle NC 6 / 13 — nouvelle fenêtre :**
+`target: '_blank'` avec `title` seul → NC 13.2. L'indication doit être dans le contenu du lien (texte visible ou `fr-sr-only`).
+
+**Règle NC 8.5 — titre de page :**
+Si `set_title!` est présent dans le code → critère 8.5 C (ne pas poser la question).
+Si absent en mode page → poser la question en Phase 2.
+
+---
+
+## Phase 2 — Questions runtime (3 toujours + 1 conditionnelle)
+
+Poser ces questions **en une seule fois**, après l'analyse :
+
+```
+Avant de finaliser le rapport, quelques vérifications que le code seul ne permet pas :
+
+🔴 Test clavier effectué ? (Tab, Shift+Tab, Enter, Escape sur les éléments interactifs)
+🔴 Zoom 200% testé ? (Cmd++ × 6 — aucun texte coupé, pas de scroll horizontal)
+🟠 Focus visible sur tous les éléments interactifs ?
+```
+
+**Si `set_title!` absent en mode page**, ajouter :
+```
+🔴 Le titre de la page est-il pertinent et spécifique (pas juste le nom du site seul) ?
+   → Si oui, indiquer le titre affiché.
+   (Détecter le nom du site depuis `SITE_NAME` dans les helpers, ou `application.rb`, sinon utiliser « le nom du site »)
+```
+
+Intégrer les réponses dans le rapport (cocher les cases, noter le titre si pertinent).
+
+---
+
+## Phase 3 — Choix du format de sortie
 
 ```
 Audit terminé. Comment veux-tu le résultat ?
 
-1. Rapport Markdown complet sauvegardé dans .claude/audit/
+1. Rapport Markdown complet sauvegardé dans audits/
 2. Corrections directes maintenant (on corrige dans les fichiers)
 3. Les deux — rapport sauvegardé + corrections immédiates
 ```
 
-Si l'option 1 ou 3 est choisie, écrire le rapport dans `.claude/audit/rgaa-<nom-du-fichier>-<YYYY-MM-DD>.md`
-(ex : `.claude/audit/rgaa-search-filter-component-2026-04-22.md`), puis afficher le chemin et une synthèse
-en moins de 10 lignes.
+Si l'option 1 ou 3 est choisie :
+- Créer le dossier `audits/` à la racine du projet s'il n'existe pas
+- Écrire le rapport dans `audits/rgaa-YYYY-MM-DD.md`
+- Si un fichier du même nom existe déjà, ajouter un suffixe incrémental : `rgaa-2026-04-22-2.md`
+- Afficher le chemin et une synthèse en moins de 10 lignes dans la conversation
 
 ---
 
 ## Structure du rapport Markdown (option 1 ou 3)
 
 ```markdown
-# Rapport d'audit RGAA — [Nom du fichier]
-Date : YYYY-MM-DD · Mode : page | composant
-Thèmes évalués : X/13 · Thèmes non concernés : Y/13
+## Audit RGAA 4.1.2 — Rapport de conformité
 
-## Score de conformité estimé
-- Critères évalués : N · Conformes : N (X%) · Non-conformes : N (X%)
-> Score indicatif — ne remplace pas un audit officiel par un tiers qualifié.
+**Date :** JJ/MM/AAAA
+**Périmètre audité :** `chemin/du/fichier.html.erb` — description fonctionnelle (contexte) · Mode : page | composant
+**Résultat global :** X% conforme sur les critères applicables
+(N critères applicables — N conformes, N non conformes, N non applicables)
 
-## Non-conformités
+---
 
-### 🔴 Bloquant
-- [11.1] Champ "Email" sans `<label for>` — `app/views/…:12`
-  → `<label for="user_email">Adresse e-mail</label>`
+### Tableau de synthèse
 
-### 🟠 Gênant
-- [6.1] Lien "Voir" ambigu — `app/components/…:28`
-  → Ajouter `<span class="fr-sr-only"> l'habilitation <%= r.intitule %></span>`
+| Thème | C | NC | NA |
+|-------|---|----|----|
+| 1. Images | | | |
+| 2. Cadres | | | |
+| 3. Couleurs | | | |
+| 4. Multimédia | | | |
+| 5. Tableaux | | | |
+| 6. Liens | | | |
+| 7. Scripts | | | |
+| 8. Éléments obligatoires | | | |
+| 9. Structuration | | | |
+| 10. Présentation | | | |
+| 11. Formulaires | | | |
+| 12. Navigation | | | |
+| 13. Consultation | | | |
+| **Total** | | | |
 
-### 🟡 Mineur
-- [10.7] `outline: none` sans alternative — `custom.css:42`
+---
 
-## À vérifier manuellement
-- [ ] Test clavier (Tab / Enter / Escape)
-- [ ] Zoom 200%
-- [ ] Lecteur d'écran sur le parcours principal
-- [Critère 4.1](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-4-1) Sous-titres vidéo
+### Non-conformités détectées
 
-## Thèmes non évalués (hors scope)
-- Thème 4 — aucun `<video>`/`<audio>` détecté
-- Thème 5 — aucun `<table>` détecté
+**[NC] X.Y — Intitulé du critère**
+- **Élément concerné :** extrait de code ou `fichier:ligne` — ex : `link_to data_provider.link, data_provider.link, target: '_blank'` (ligne 26)
+- **Problème :** explication du *pourquoi* c'est une violation — pas juste le *quoi*. Ex : « Le texte du lien EST l'URL brute. Une URL n'est pas un intitulé explicite : elle ne décrit pas la destination de façon compréhensible. L'attribut `title` ajoute le nom, mais le `title` n'est pas l'intitulé accessible quand du texte est présent. »
+- **Correction :**
+  ```erb
+  exemple de correction ERB/DSFR immédiatement applicable
+  ```
+- **Priorité :** 🔴 Bloquant / 🟠 Majeur / 🟡 Mineur
 
-## Limites du mode composant
+---
+
+### Correction groupée recommandée _(si plusieurs NC partagent le même élément source)_
+
+Quand plusieurs NC portent sur le même bout de code, proposer une correction unique qui les résout toutes :
+
+**NC X.Y + X.Z — résolution en une modification**
+
+```erb
+<%# Avant %>
+<ancien code>
+
+<%# Après %>
+<nouveau code corrigeant les deux NC>
+```
+
+---
+
+### Critères conformes
+
+**X.Y** — justification courte
+**X.Z** — justification courte
+
+### Critères non applicables
+
+- **X.Y–X.Z** — justification courte (ex : aucune image, pas de formulaire…)
+- **X.Y** — critère de layout géré globalement
+
+### À vérifier manuellement
+
+- [x/☐] Test clavier (Tab / Shift+Tab / Enter / Escape / flèches) — résultat
+- [x/☐] Zoom 200% (Cmd++ × 6 — aucun texte coupé, pas de scroll horizontal) — résultat
+- [x/☐] Focus visible sur tous les éléments interactifs — résultat
+
+### Limites du mode composant _(si applicable)_
+
 Ces critères nécessitent la page complète pour être évalués :
 - [8.5] `<title>` unique par page
 - [8.3] `<html lang="fr">`
 - [9.1] Hiérarchie h1 globale
-- [12.1] Liens d'évitement présents
+- [12.1] Lien d'évitement présent
 - [12.2] `aria-current="page"` dans le menu
 ```

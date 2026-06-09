@@ -6,34 +6,35 @@ AA / WAI-ARIA 1.2, et un audit guidé critère par critère. Conçu pour la stac
 Rails + ERB + ViewComponent + Stimulus + Turbo, **avec ou sans DSFR** (détection
 automatique du contexte projet).
 
-> **Outil d'aide au développement** — cette skill assiste à l'implémentation et
-> à la détection de non-conformités dans le code. Elle ne remplace pas un audit
-> humain : sur 106 critères RGAA 4.1.2, l'analyse statique du code en couvre
-> environ 30 à 40 de façon fiable. Les tests lecteur d'écran, navigation clavier
-> et contrastes réels restent indispensables.
->
-> | Thème RGAA | Couverture IA |
-> |------------|---------------|
-> | 1 — Images | 🟡 Partielle — détecte `alt` manquant et `aria-hidden`, ne juge pas la pertinence du texte |
-> | 2 — Cadres | 🟡 Partielle — détecte `title` manquant sur `<iframe>` |
-> | 3 — Couleurs | 🟠 Limitée — vérifie l'usage des tokens DSFR, pas les contrastes calculés au runtime |
-> | 4 — Multimédia | ❌ Non couverte — nécessite de regarder/écouter le contenu |
-> | 5 — Tableaux | ✅ Bonne — `scope`, `caption`, `headers` vérifiables statiquement |
-> | 6 — Liens | 🟡 Partielle — intitulés et `aria-label`, pas le comportement réel en contexte |
-> | 7 — Scripts | 🟡 Partielle — ARIA sur composants interactifs, pas la navigation clavier effective |
-> | 8 — Éléments obligatoires | ✅ Bonne — `lang`, `title`, `meta` vérifiables dans le code |
-> | 9 — Structuration | 🟡 Partielle — hiérarchie des titres et landmarks dans le code |
-> | 10 — Présentation | 🟠 Limitée — ne peut pas tester la présentation sans CSS |
-> | 11 — Formulaires | ✅ Bonne — `<label>`, messages d'erreur, groupements vérifiables |
-> | 12 — Navigation | 🟠 Limitée — ne peut pas tester avec un lecteur d'écran |
-> | 13 — Consultation | ❌ Non couverte — sessions, délais, animations nécessitent des tests runtime |
->
-> L'accessibilité numérique, c'est permettre à chacun d'accéder à un service, quelles que soient ses capacités. 15 à 20 % des utilisateurs vivent avec un handicap qui affecte leur navigation numérique — visuel, moteur, auditif ou cognitif. Un service accessible, c'est un service qui fonctionne pour tous.
->
-> Pour consulter les 106 critères : [accessibilite.numerique.gouv.fr](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/)
+## Outil d'aide au développement
+
+Cette skill assiste à l'implémentation et à la détection de non-conformités dans le code. **Elle ne remplace pas un audit humain** : sur 106 critères RGAA 4.1.2, l'analyse statique du code en couvre environ 30 à 40 de façon fiable. Les tests lecteur d'écran, navigation clavier et contrastes réels restent indispensables.
+
+### Couverture par thème
+
+| Thème RGAA | Couverture IA |
+|------------|---------------|
+| 1 — Images | 🟡 Partielle — détecte `alt` manquant et `aria-hidden`, ne juge pas la pertinence du texte |
+| 2 — Cadres | 🟡 Partielle — détecte `title` manquant sur `<iframe>` |
+| 3 — Couleurs | 🟠 Limitée — vérifie l'usage des tokens DSFR, pas les contrastes calculés au runtime |
+| 4 — Multimédia | ❌ Non couverte — nécessite de regarder/écouter le contenu |
+| 5 — Tableaux | ✅ Bonne — `scope`, `caption`, `headers` vérifiables statiquement |
+| 6 — Liens | 🟡 Partielle — intitulés et `aria-label`, pas le comportement réel en contexte |
+| 7 — Scripts | 🟡 Partielle — ARIA sur composants interactifs, pas la navigation clavier effective |
+| 8 — Éléments obligatoires | ✅ Bonne — `lang`, `title`, `meta` vérifiables dans le code |
+| 9 — Structuration | 🟡 Partielle — hiérarchie des titres et landmarks dans le code |
+| 10 — Présentation | 🟠 Limitée — ne peut pas tester la présentation sans CSS |
+| 11 — Formulaires | ✅ Bonne — `<label>`, messages d'erreur, groupements vérifiables |
+| 12 — Navigation | 🟠 Limitée — ne peut pas tester avec un lecteur d'écran |
+| 13 — Consultation | ❌ Non couverte — sessions, délais, animations nécessitent des tests runtime |
+
+L'accessibilité numérique, c'est permettre à chacun d'accéder à un service, quelles que soient ses capacités. 15 à 20 % des utilisateurs vivent avec un handicap qui affecte leur navigation numérique — visuel, moteur, auditif ou cognitif. Un service accessible, c'est un service qui fonctionne pour tous.
+
+Pour consulter les 106 critères : [accessibilite.numerique.gouv.fr](https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/)
 
 ## Table des matières
 
+- [Outil d'aide au développement](#outil-daide-au-développement)
 - [Installation](#installation)
 - [Utilisation avec Claude Code](#utilisation-avec-claude-code)
 - [Skills disponibles](#skills-disponibles)
@@ -150,8 +151,11 @@ Ce plugin accueille plusieurs skills complémentaires :
 | Skill | Invocation | Statut | Description |
 |-------|------------|--------|-------------|
 | Guide RGAA/WCAG | `/accessibility:rgaa-dev` | ✅ Disponible | Guide complet d'implémentation — HTML sémantique, ARIA, Rails, DSFR |
-| Audit guidé | `/accessibility:audit` | ✅ Disponible | Audit critère par critère avec sévérité 🔴/🟠/🟡 et corrections ERB/DSFR |
+| Audit guidé | `/accessibility:audit` | ✅ Disponible | Audit critère par critère — **Rails/ERB/ViewComponent uniquement** — corrections DSFR prêtes à l'emploi |
 | Checklist commit | `/accessibility:check` | 🚧 En conception | Checklist rapide avant commit/merge |
+
+> **Périmètre de `/accessibility:audit`** : conçu pour la stack Rails (ERB, ViewComponent, Stimulus, DSFR).
+> Pour un projet Next.js / React (JSX/TSX), utilise le skill communautaire [`etalab-ia/skills`](https://github.com/etalab-ia/skills) — `npx skills add etalab-ia/skills --skill rgaa -a claude-code`.
 
 ## Structure du projet
 
@@ -183,8 +187,13 @@ claude-skill-rgaa-dev/
     │   └── rgaa-themes.md          # Les 13 thèmes RGAA détaillés
     │
     └── audit/                      # Méthodologie d'audit guidé
-        ├── SKILL.md                # Point d'entrée — détection de thèmes, sévérités
-        └── audit-flow.md           # Questions guidées thème par thème
+        ├── SKILL.md                # Point d'entrée — analyse statique, questions runtime, format rapport
+        └── references/             # Critères RGAA détaillés par groupe de thèmes
+            ├── images-cadres-couleurs.md
+            ├── multimedia-tableaux-liens-scripts.md
+            ├── structure-presentation.md
+            ├── formulaires.md
+            └── navigation-consultation.md
 ```
 
 ## Ce que la skill couvre
@@ -230,12 +239,16 @@ consultation.
 | `impacts.md` | Impact des défauts par type de handicap + priorités |
 | `rgaa-themes.md` | Les 13 thèmes RGAA détaillés |
 
-### Skill `audit` — méthodologie d'audit guidé
+### Skill `audit` — méthodologie d'audit guidé (Rails/ERB uniquement)
 
 | Fichier | Contenu |
 |---------|---------|
-| `SKILL.md` | Point d'entrée — détection des thèmes pertinents, sévérités 🔴/🟠/🟡, structure de rapport |
-| `audit-flow.md` | Questions guidées thème par thème, corrections ERB/DSFR prêtes à l'emploi |
+| `SKILL.md` | Point d'entrée — analyse statique silencieuse, 3 questions runtime, format rapport |
+| `references/images-cadres-couleurs.md` | Critères 1–3 : patterns de détection, NC type, corrections ERB/DSFR |
+| `references/multimedia-tableaux-liens-scripts.md` | Critères 4–7 : idem |
+| `references/structure-presentation.md` | Critères 8–10 : idem |
+| `references/formulaires.md` | Critères 11 : idem |
+| `references/navigation-consultation.md` | Critères 12–13 : idem |
 
 ## Points clés à retenir
 
