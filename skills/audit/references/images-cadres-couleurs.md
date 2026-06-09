@@ -103,9 +103,14 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 
 **Détecter :** badge sans texte de statut, lien sans soulignement dans du texte courant, champ obligatoire signalé uniquement par `color: red`
 
+**Penser aux ÉTATS signalés par la couleur seule** (piège fréquent, souvent manqué) : filtre ou tag sélectionné dans une modale de recherche, onglet actif, ligne ou carte sélectionnée, étape courante d'un stepper, page courante dans un menu. Si le seul indice visuel de l'état « sélectionné/actif » est une couleur de fond ou de texte → NC.
+
 **Non-conformité type :**
 ```erb
 <span class="badge-red"></span>       <%# statut uniquement par couleur %>
+
+<%# Filtre sélectionné : seule la couleur de fond distingue l'état actif %>
+<button class="filtre <%= 'filtre--actif' if selected? %>"><%= label %></button>
 ```
 
 **Correction :**
@@ -116,6 +121,10 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 <%# Champ obligatoire : indiquer textuellement %>
 <p>Les champs marqués d'un <span aria-hidden="true">*</span>
    <span class="fr-sr-only">astérisque</span> sont obligatoires.</p>
+
+<%# État sélectionné : exposer l'état aux AT, pas seulement par la couleur %>
+<button class="filtre <%= 'filtre--actif' if selected? %>"
+        aria-pressed="<%= selected? %>"><%= label %></button>
 ```
 
 Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-3-1
@@ -130,6 +139,8 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 - Texte normal (< 24px) : ratio ≥ 4.5:1
 - Grand texte (≥ 24px ou ≥ 18.5px gras) : ratio ≥ 3:1
 - Composants UI (bordure input, outline focus, icônes informatives) : ratio ≥ 3:1
+
+**Exclusion — éléments purement décoratifs (anti-faux-positif) :** le seuil 3:1 ne s'applique qu'aux éléments graphiques **porteurs d'information** (bordure qui délimite un champ, icône qui véhicule un sens, trait qui sépare deux zones de sens). Une bordure, un trait ou un encadré **purement décoratifs** (séparateur esthétique, illustration) ne sont **pas** soumis au seuil → ne pas relever de NC. Avant de conclure NC 3.3, se demander : « cet élément porte-t-il une information ? ». Si non → C/NA, pas NC.
 
 **Outil :** https://contrast-finder.tanaguru.com/ — voir aussi [colors.md](../../rgaa-dev/colors.md)
 

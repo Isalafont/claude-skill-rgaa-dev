@@ -52,9 +52,11 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 
 ## Thème 9 — Structuration de l'information (5 critères)
 
-### 9.1 — Hiérarchie des titres 🔴 Bloquant
+### 9.1 — Hiérarchie et présence des titres 🔴 Bloquant
 
-**Détecter :** plusieurs `<h1>` sur la même page ; saut de niveau (h1→h3 sans h2) ; `<h2>` à `<h6>` utilisé pour le style sans signification de titre
+**Détecter :** plusieurs `<h1>` sur la même page ; saut de niveau (h1→h3 sans h2) ; `<h2>` à `<h6>` utilisé pour le style sans signification de titre ; **absence de titre sur une section ou un article qui en nécessite un** (bloc de contenu autonome — article, encart, section thématique — introduit sans `<hx>`).
+
+**Absence de titre = NC avérée, pas une suggestion :** si un contenu structurant (article, section, regroupement thématique) n'a pas de titre `<hx>`, c'est une **non-conformité obligatoire** à corriger — pas une simple recommandation. Le titre permet la navigation par titres au lecteur d'écran et structure la page.
 
 **Non-conformité type :**
 ```erb
@@ -108,7 +110,7 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 
 ### 9.3 — Listes sémantiques 🟡 Mineur
 
-**Détecter :** suite de `<div>` ou `<span>` répétés rendant une liste d'items (cartes, résultats, étapes) sans `<ul>`/`<ol>`
+**Détecter :** suite de `<div>` ou `<span>` répétés rendant une liste d'items (cartes, résultats, étapes) sans `<ul>`/`<ol>` ; **suite de liens** non structurée en liste — liens de réseaux sociaux, liens de pied de page, « les plus consultés », menus de liens : une succession de `<a>` adjacents qui forme visuellement une liste doit être balisée `<ul><li>`.
 
 **Non-conformité type :**
 ```erb
@@ -116,6 +118,12 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
   <% @requests.each do |r| %>
     <div class="card"><%= r.intitule %></div>
   <% end %>
+</div>
+
+<%# Suite de liens (réseaux sociaux) sans liste %>
+<div class="reseaux">
+  <%= link_to 'X', '#' %>
+  <%= link_to 'LinkedIn', '#' %>
 </div>
 ```
 
@@ -125,6 +133,12 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
   <% @requests.each do |r| %>
     <li><%= render Cards::RequestComponent.new(request: r) %></li>
   <% end %>
+</ul>
+
+<%# Suite de liens structurée en liste %>
+<ul class="fr-btns-group">
+  <li><%= link_to 'X', '#' %></li>
+  <li><%= link_to 'LinkedIn', '#' %></li>
 </ul>
 ```
 
@@ -176,6 +190,7 @@ font-size: 1rem;                     /* rem respecte les préférences navigateu
 
 **À vérifier manuellement :**
 - [ ] Cmd++ × 6 dans Chrome/Firefox : aucun texte coupé, pas de scroll horizontal
+- [ ] **Menu de navigation au zoom** : déplier le menu principal à 200% — items non tronqués ni superposés, sous-menus dans la fenêtre, bascule éventuelle en menu mobile fonctionnelle au clavier
 - [ ] Simuler 320px de large (DevTools) : contenu lisible sans scroll horizontal
 
 Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-10-4
@@ -201,3 +216,27 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 ```
 
 Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-10-1
+
+---
+
+### 10.9 — Information par la forme, la taille ou la position 🟡 Mineur
+
+**Objectif du critère (souvent mal compris) :** quand une information est portée par une **mise en forme visuelle** — forme, taille, position, graisse — elle doit avoir une **alternative restituée aux technologies d'assistance**. Le critère **n'exige PAS d'ajouter** une mise en forme visuelle ; il exige que celle qui porte déjà du sens soit doublée d'une alternative perceptible par les AT.
+
+**Détecter :** consigne reposant sur la forme/taille/position sans équivalent textuel (« cliquez sur le bouton rond », « le champ à droite », « le texte en gras est obligatoire ») ; élément distingué uniquement par sa position ou sa graisse sans information équivalente exposée aux AT.
+
+**Non-conformité type :**
+```erb
+<%# L'info repose sur la position seule %>
+<p>Remplissez le champ de droite pour valider.</p>
+```
+
+**Correction :**
+```erb
+<%# Référence par le libellé, pas par la position %>
+<p>Remplissez le champ « Code de validation ».</p>
+```
+
+> Distinguer la page active d'un menu uniquement par un style visuel n'est **pas** exigé par 10.9 (c'est un critère WCAG AAA « Location »). Pour l'état actif d'un menu, voir 12.2 (`aria-current="page"`).
+
+Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-10-9

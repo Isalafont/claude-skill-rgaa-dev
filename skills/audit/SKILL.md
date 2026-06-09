@@ -61,6 +61,16 @@ Consulter les fichiers de référence pour les patterns de détection, non-confo
 Si `set_title!` est présent dans le code → critère 8.5 C (ne pas poser la question).
 Si absent en mode page → poser la question en Phase 2.
 
+### Règle de tri par impact _(à appliquer avant tout verdict)_
+
+Le RGAA vérifie un défaut **restitué à l'utilisateur**. Avant de conclure, raisonner par impact — pas par récitation de règle :
+
+1. **Avant de conclure NC** — nommer l'impact concret : *quel handicap, quel blocage, avec quel outil ?* Si aucun impact réel n'existe (élément purement décoratif, règle non applicable au cas), ce **n'est pas une NC** — classer C ou NA selon le cas, pas NC.
+2. **Avant de conclure C** — ne pas se contenter de l'absence de défaut visible. Avoir parcouru les tests du critère et vérifié qu'aucun pattern à risque n'est présent. Marquer C par défaut = faux négatif.
+3. **Avant de conclure NA** — vérifier que le critère ne s'applique vraiment pas à ce contenu (conditions d'applicabilité), pas seulement qu'on n'a rien trouvé.
+
+Table des impacts par type de handicap : [../rgaa-dev/impacts.md](../rgaa-dev/impacts.md).
+
 ---
 
 ## Phase 2 — Questions runtime (3 toujours + 1 conditionnelle)
@@ -142,6 +152,7 @@ Si l'option 1 ou 3 est choisie :
 **[NC] X.Y — Intitulé du critère**
 - **Élément concerné :** extrait de code ou `fichier:ligne` — ex : `link_to data_provider.link, data_provider.link, target: '_blank'` (ligne 26)
 - **Problème :** explication du *pourquoi* c'est une violation — pas juste le *quoi*. Ex : « Le texte du lien EST l'URL brute. Une URL n'est pas un intitulé explicite : elle ne décrit pas la destination de façon compréhensible. L'attribut `title` ajoute le nom, mais le `title` n'est pas l'intitulé accessible quand du texte est présent. »
+- **Impact utilisateur :** quel handicap est touché et quel blocage concret, avec quel outil — c'est ce qui justifie que ce soit bien une NC. Ex : « Cécité (lecteur d'écran) — le lien est restitué "h-t-t-p-s deux-points slash slash…" caractère par caractère, la destination est inintelligible. » Voir [../rgaa-dev/impacts.md](../rgaa-dev/impacts.md).
 - **Correction :**
   ```erb
   exemple de correction ERB/DSFR immédiatement applicable

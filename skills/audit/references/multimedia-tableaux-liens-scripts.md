@@ -152,6 +152,16 @@ Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#c
 
 ---
 
+### Nom accessible et nom visible — quand la règle NE s'applique PAS
+
+**Règle (WCAG 2.5.3, pilotage vocal) :** quand un élément interactif a un **intitulé visible** (texte affiché), son **nom accessible** doit reprendre ce texte — sinon une personne qui pilote à la voix ne peut pas l'activer en prononçant ce qu'elle voit.
+
+**Condition de non-applicabilité (NA) :** si l'élément n'a **pas d'intitulé visible** — par exemple un lien réseau social représenté par une **icône seule** — la règle ne s'applique pas. Il n'y a aucun texte visible à reprendre ; l'utilisateur active l'élément par d'autres commandes vocales. Exiger ici que le `aria-label` corresponde à un libellé visible inexistant est une **fausse NC**.
+
+> Ne pas confondre avec 6.2 : une icône seule **sans** `aria-label` ni texte est bien une NC (l'élément n'a aucun nom accessible). La NA ci-dessus concerne uniquement la règle « nom visible repris dans le nom accessible ».
+
+---
+
 ## Thème 7 — Scripts (5 critères)
 
 ### 7.1 — Éléments interactifs natifs 🔴 Bloquant

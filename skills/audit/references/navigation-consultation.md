@@ -6,13 +6,48 @@
 
 > Mode page uniquement. En mode composant, ces critères sont listés dans « Limites du mode composant ».
 
-### 12.7 — Liens d'évitement 🔴 Bloquant
+### 12.6 — Zones de regroupement atteignables (landmarks) 🟠 Majeur
 
-**Détecter :** absence de liens d'évitement dans `application.html.erb` ; lien d'évitement présent mais pointant vers un `id` inexistant
+**Détecter :** zone de moteur de recherche sans `role="search"` (ou `<search>`) ; régions d'en-tête, navigation, contenu principal, pied de page non balisées par des landmarks (`<header>`, `<nav>`, `<main>`, `<footer>`).
+
+**Placement correct de `role="search"` (piège fréquent) :** le rôle `search` se pose sur un **élément englobant sans rôle propre** (`<search>`, `<div>`, `<form>`) qui entoure le champ et le bouton — **jamais directement sur le `<button>`**. Sur le bouton, il écraserait la sémantique essentielle (`role="button"`), qui serait alors annoncé comme une zone de recherche au lieu d'un bouton.
 
 **Non-conformité type :**
 ```erb
-<%# Aucun lien d'évitement en tête de body %>
+<%# role search sur le bouton : surcharge la sémantique du bouton %>
+<button type="submit" role="search">Rechercher</button>
+```
+
+**Correction :**
+```erb
+<%# role search sur le conteneur ; le bouton garde sa sémantique %>
+<search>                              <%# ou <div role="search"> %>
+  <form action="/recherche">
+    <label for="q">Rechercher</label>
+    <input type="search" id="q" name="q">
+    <button type="submit">Rechercher</button>
+  </form>
+</search>
+```
+
+Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-12-6
+
+---
+
+### 12.7 — Lien d'accès rapide / d'évitement vers le contenu principal 🔴 Bloquant
+
+**Ce que le critère exige (et seulement ça) :** un lien permettant d'atteindre **la zone de contenu principal**, présent dans chaque page. Un **seul** lien vers le contenu principal suffit. Le critère **n'exige PAS** de lien « Aller à la navigation » ni « Aller au pied de page » — ce sont des bonus, leur absence n'est pas une NC 12.7.
+
+**Vocabulaire (glossaire RGAA) — bien nommer dans le rapport :**
+- **Lien d'accès rapide** : permet d'*accéder à* une zone → « Aller au contenu principal ». C'est ce qu'attend 12.7.
+- **Lien d'évitement** : permet de *sauter/contourner* une zone → « Sauter la navigation ».
+- La distinction est la **direction** (accéder à vs contourner), **pas** la visibilité : les deux peuvent être masqués et révélés au focus clavier.
+
+**Détecter :** absence de tout lien vers `#main` (ou l'`id` du `<main>`) en tête de `<body>` ; lien présent mais pointant vers un `id` inexistant.
+
+**Non-conformité type :**
+```erb
+<%# Aucun lien vers le contenu principal en tête de body %>
 <body>
   <header>...</header>
 ```
@@ -27,16 +62,12 @@
         Aller au contenu principal
       </a>
     </li>
-    <li>
-      <a class="fr-skip-links__link" href="#main-nav">
-        Aller à la navigation
-      </a>
-    </li>
+    <%# Liens supplémentaires (navigation, recherche) = bonus, non exigés par 12.7 %>
   </ul>
 </nav>
 ```
 
-Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-12-11
+Lien RGAA : https://accessibilite.numerique.gouv.fr/methode/criteres-et-tests/#critere-12-7
 
 ---
 
