@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.0] — 2026-06-09
+
+### Modifications
+- `/accessibility:audit` : refonte en analyse statique silencieuse du code, au lieu d’un questionnaire thème par thème. Produit un rapport de conformité structuré (tableau C/NC/NA par thème, NC détaillées, correction groupée), plus fidèle à un audit RGAA réel
+- `audit-flow.md` éclaté en `skills/audit/references/` (un fichier par groupe de thèmes)
+
+### Ajouts
+- Raisonnement par impact utilisateur : règle de tri en Phase 1 (pas d’impact réel → pas de NC, distinguer C et NA) et ligne « Impact utilisateur » obligatoire dans chaque NC, branchée sur `impacts.md`
+- Critères affinés dans les références : états signalés par la couleur seule (3.1), exclusion du décoratif du contraste (3.3), non-applicabilité de la règle nom visible/nom accessible sans intitulé visible (6.1), absence de titres en NC (9.1), suites de liens en liste (9.3), menu au zoom 200 % (10.4), objectif du critère 10.9, placement de `role="search"` hors du bouton (12.6), distinction accès rapide / évitement (12.7)
+
 ## [1.1.1] — 2026-04-22
 
 ### Améliorations
