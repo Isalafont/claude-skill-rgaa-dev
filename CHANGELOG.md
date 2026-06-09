@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.1] — 2026-06-09
+
+### Modifications
+- `/accessibility:audit` : section « Critères conformes » du template de rapport passée en liste à puces (un critère par ligne), au lieu de paragraphes accolés — rapport plus lisible
+
 ## [1.2.0] — 2026-06-09
 
 ### Modifications

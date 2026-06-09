@@ -179,8 +179,8 @@ Quand plusieurs NC portent sur le même bout de code, proposer une correction un
 
 ### Critères conformes
 
-**X.Y** — justification courte
-**X.Z** — justification courte
+- **X.Y** — justification courte
+- **X.Z** — justification courte
 
 ### Critères non applicables
 
