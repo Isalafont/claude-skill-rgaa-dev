@@ -1,0 +1,14 @@
+#!/bin/sh
+# post-commit — après un commit dans ce sous-repo, stage le pointeur de
+# submodule mis à jour dans le superprojet (dotfiles) et rappelle de le committer.
+# Générique : ne fait rien si le repo n'est pas un submodule.
+
+super=$(git rev-parse --show-superproject-working-tree 2>/dev/null)
+[ -z "$super" ] && exit 0
+
+sub=$(git rev-parse --show-toplevel)
+rel=${sub#"$super"/}
+
+git -C "$super" add "$rel"
+echo "↳ submodule $rel : pointeur stagé dans le superprojet ($super)."
+echo "  Pense à committer le superprojet pour enregistrer la nouvelle version."

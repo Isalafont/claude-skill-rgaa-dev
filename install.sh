@@ -25,3 +25,12 @@ cp -r "$SCRIPT_DIR/skills/$SKILL_NAME" "$SKILLS_DIR/$SKILL_NAME"
 echo "✅ Skill $SKILL_NAME installée dans $SKILLS_DIR/$SKILL_NAME"
 echo "   Invocable via : /rgaa-dev"
 echo "   Active automatiquement sur : app/views/**/*.erb, app/components/**, app/javascript/**/*.js"
+
+if git -C "$SCRIPT_DIR" rev-parse --show-superproject-working-tree >/dev/null 2>&1; then
+  HOOKS_DIR="$(cd "$SCRIPT_DIR" && git rev-parse --absolute-git-dir)/hooks"
+  mkdir -p "$HOOKS_DIR"
+  chmod +x "$SCRIPT_DIR/hooks/post-commit"
+  ln -sf "$SCRIPT_DIR/hooks/post-commit" "$HOOKS_DIR/post-commit"
+  echo "✅ Hook post-commit installé ($HOOKS_DIR/post-commit)"
+  echo "   Stage le pointeur de submodule dans le superprojet après chaque commit."
+fi
