@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.2] — 2026-06-17
+
+### Modifications
+- `rgaa-dev/resources.md` : ajout de la référence rapide WCAG 2.2 (Quickref, filtrable par technique — https://www.w3.org/WAI/WCAG22/quickref/) dans la table « WCAG 2.1 et 2.2 »
+
 ## [1.2.1] — 2026-06-09
 
 ### Modifications

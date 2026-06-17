@@ -29,6 +29,7 @@
 | Nouveautés WCAG 2.2 | https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/ |
 | Critères de succès WCAG 2.1 | https://www.w3.org/TR/WCAG21/ |
 | Guide de compréhension WCAG 2.2 | https://www.w3.org/WAI/WCAG22/Understanding/ |
+| Référence rapide WCAG 2.2 (Quickref, filtrable par technique) | https://www.w3.org/WAI/WCAG22/quickref/ |
 | European Accessibility Act | https://ec.europa.eu/social/main.jsp?catId=1202 |
 
 ### ARIA
